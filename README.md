@@ -1,6 +1,6 @@
 
 
-# 📚Bans Library App
+# 💻Bans Library App
 <p align="center">
   <img alt="David" src="https://img.shields.io/david/banisholih23/bans-library-apps">
   <a href="https://github.com/banisholih23?tab=followers">
