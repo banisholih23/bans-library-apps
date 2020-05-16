@@ -2,6 +2,7 @@
 
 # 📚Bans Library App
 <p align="center">
+  <img alt="David" src="https://img.shields.io/david/banisholih23/bans-library-apps">
   <a href="https://github.com/banisholih23?tab=followers">
     <img title="Followers" src="https://img.shields.io/github/followers/banisholih23?style=social">
   </a>
@@ -11,9 +12,8 @@
   <a href="https://github.com/banisholih23/bans-library-apps/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/banisholih23/bans-library-apps?style=social">
   </a>
-  <img alt="David" src="https://img.shields.io/david/banisholih23/bans-library-apps">
   <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/banisholih23/bans-library-apps/master">
-  
+  <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/banisholih23/bans-library-apps/total">
  </p>
  
  ## Build Setup
