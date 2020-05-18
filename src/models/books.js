@@ -1,30 +1,27 @@
 const db = require('../config/index')
 
 module.exports = {
-  countData: (searchTitle) => {
+  getAllBooks: (start, end, data = {}) => {
+    const sql = `SELECT id, book_title, book_desc, image, book_genre, book_author, book_status, id_genre, id_status, created_at, updated_at FROM lis_book WHERE book_title LIKE '${data.search || ''}%' 
+    ORDER BY book_title ${parseInt(data.sort) ? 'DESC' : 'ASC'} LIMIT ${end} OFFSET ${start}`
     return new Promise((resolve, reject) => {
-      db.query(`SELECT count(*) as totalData FROM lis_book WHERE book_title LIKE
-      '%${searchTitle}%'`, (error, result) => {
-        if (error) {
-          reject(Error(error))
-        }
-        resolve(result.totalData)
-      })
-    })
-  },
-  getAllBooks: (searchTitle, pagination) => {
-    return new Promise((resolve, reject) => {
-      const totalData = db.query('SELECT count (*) FROM lis_book')
-
-      const firstData = ((pagination.limit * pagination.activePage) - pagination.limit)
-
-      db.query(`SELECT id, book_title, book_desc, image, book_genre, book_author, book_status, id_genre, id_status, created_at, updated_at FROM lis_book WHERE book_title LIKE '%${searchTitle}%'
-      ORDER BY ${pagination.sortBy} ${pagination.orderBy}
-      LIMIT ${firstData},${pagination.limit}`, (error, result) => {
+      db.query(sql, (error, result) => {
         if (error) {
           reject(Error(error))
         }
         resolve(result)
+      })
+    })
+  },
+  getBookCount: (data = {}) => {
+    const sql = `SELECT COUNT(*) as total FROM lis_book WHERE book_title LIKE '${data.search || ''}%' 
+    ORDER BY book_title ${parseInt(data.sort) ? 'DESC' : 'ASC'}`
+    return new Promise((resolve, reject) => {
+      db.query(sql, (error, result) => {
+        if (error) {
+          reject(Error(error))
+        }
+        resolve(result[0].total)
       })
     })
   },

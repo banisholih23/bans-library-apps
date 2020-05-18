@@ -2,32 +2,84 @@ const book = require('../models/books')
 const multer = require('multer')
 const config = require('../config/multer')
 const upload = config.single('image')
+const qs = require('querystring')
+
+const getPage = (_page) => {
+  const page = parseInt(_page)
+  if (page && page > 0) {
+    return page
+  } else {
+    return 1
+  }
+}
+
+const getPerPage = (_perPage) => {
+  const perPage = parseInt(_perPage)
+  if (perPage && perPage > 0) {
+    return perPage
+  } else {
+    return 5
+  }
+}
+
+const getNextLinkQueryString = (page, totalPage, currentQuery) => {
+  page = parseInt(page)
+  if (page < totalPage) {
+    const generatedPage = {
+      page: page + 1
+    }
+    return qs.stringify({ ...currentQuery, ...generatedPage })
+  } else {
+    return null
+  }
+}
+
+const getPrevLinkQueryString = (page, currentQuery) => {
+  page = parseInt(page)
+  if (page > 1) {
+    const generatedPage = {
+      page: page - 1
+    }
+    return qs.stringify({ ...currentQuery, ...generatedPage })
+  } else {
+    return null
+  }
+}
 
 module.exports = {
   getAllBooks: async (request, response) => {
     try {
-      const limit = request.query.limit || 100
-      const activePage = request.query.page || 1
-      const searchTitle = request.query.search || ''
-      const sortBy = request.query.sortBy || 'id' 
-      const orderBy = request.query.orderBy || 'ASC'
+      const { page, limit, search, sort } = request.query
 
-      const pagination = {
-        activePage, limit, sortBy, orderBy
+      const condition = {
+        search,
+        sort
       }
 
-      const totalData = await book.countData(searchTitle)
+      const sliceStart = (getPage(page) * getPerPage(limit)) - getPerPage(limit)
+      const sliceEnd = (getPage(page) * getPerPage(limit))
+      const totalData = await book.getBookCount(condition)
+      //const totalDataConds = await book.countData(pagination)
         // console.log(totalData)
-      const totalPages = Math.ceil(totalData / limit)
+      const totalPage = Math.ceil(totalData / getPerPage(limit))
         // console.log(totalPages)
-      const pager = {
-        totalPages
-      }
-      const result = await book.getAllBooks(searchTitle, pagination)
+
+      const prevLink = getPrevLinkQueryString(getPage(page), request.query)
+      const nextLink = getNextLinkQueryString(getPage(page), totalPage, request.query)
+
+      const result = await book.getAllBooks(sliceStart, sliceEnd, condition)
       return response.status(200).json({
         status: 200,
         msg: 'List all book data',
-        data: result
+        data: result,
+        pageInfo: {
+          page: getPage(page),
+          totalPage,
+          perPage: getPerPage(limit),
+          totalData, 
+          nextLink: nextLink && `${process.env.APP_URL}/books?${nextLink}`,
+          prevLink: prevLink && `${process.env.APP_URL}/books?${prevLink}`
+        }
       })
     } catch (error) {
       console.log(error)
@@ -55,7 +107,7 @@ module.exports = {
           });
         } else {
           let setData = request.body;
-          setData.image = `http://localhost:5000/profile_picture/${request.file.filename}`;
+          setData.image = `${process.env.APP_URL}/profile_picture/${request.file.filename}`;
           console.log(setData);
           const result = await book.addNewBook(setData);
           return response
@@ -91,7 +143,7 @@ module.exports = {
         } else {
           let setData = request.body;
           const id = request.params.id
-          setData.image = `http://localhost:5000/profile_picture/${request.file.filename}`;
+          setData.image = `${process.env.APP_URL}/profile_picture/${request.file.filename}`;
           console.log(setData);
           const result = await book.updateBooks(setData, id);
           return response
@@ -105,34 +157,6 @@ module.exports = {
       }
     });
   },
-  // updateBooks: async function (request, response) {
-  //   upload(request, response, async function (error) {
-  //     if (error instanceof multer.MulterError) {
-  //       return response
-  //         .status(500)
-  //         .json({ status: 500, message: error, data: [] });
-  //     } else if (error) {
-  //       return response
-  //         .status(500)
-  //         .json({ status: 500, message: error, data: [] });
-  //     }
-  //     try {
-  //       let setData = request.body;
-  //       const id = request.params.id
-  //       setData.image = `http://localhost:5000/profile_picture/${request.file.filename}`;
-  //       console.log(setData);
-  //       const result = await book.updateBooks(setData, id);
-  //       return response
-  //         .status(200)
-  //         .json({ status: 200, message: "success", data: result });
-    
-  //     } catch (error) {
-  //       return response
-  //         .status(500)
-  //         .json({ status: 500, message: error, data: [] });
-  //     }
-  //   })
-  // },
   deleteBook: async (request, response) => {
     const { id } = request.params
     const _id = { id: parseInt(id) }
