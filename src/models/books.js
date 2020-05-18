@@ -28,18 +28,6 @@ module.exports = {
       })
     })
   },
-  // addNewBook: (data) => {
-  //   const sql = 'INSERT INTO lis_book SET ?'
-  //   return new Promise((resolve, reject) => {
-  //     db.query(sql, data, (error, results) => {
-  //       if (error) {
-  //         reject(Error(error))
-  //       }
-  //       console.log(results)
-  //       resolve(results.insertId)
-  //     })
-  //   })
-  // },
   addNewBook: function (setData) {
     return new Promise(function (resolve, reject) {
       db.query("INSERT INTO lis_book SET ?", setData, function (
@@ -84,17 +72,6 @@ module.exports = {
       );
     });
   },
-  // updateBook: (setData, id) => {
-  //   const sql = 'UPDATE lis_book SET ? WHERE id=?'
-  //   return new Promise((resolve, reject) => {
-  //     db.query(sql, [setData, parseInt(id)], (error, result) => {
-  //       if (error) {
-  //         reject(Error(error))
-  //       }
-  //       resolve(result)
-  //     })
-  //   })
-  // },
   deleteBook: (data) => {
     const sql = 'DELETE FROM lis_book WHERE ?'
     return new Promise((resolve, reject) => {

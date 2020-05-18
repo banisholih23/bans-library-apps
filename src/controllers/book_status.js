@@ -38,31 +38,6 @@ module.exports = {
       response.status(400).send(data)
     }
   },
-  // putStatus: async (request, response) => {
-  //   const id = request.params
-  //   const { status, created_at, updated_at } = request.body
-
-  //   const statusData = [
-  //     { status, created_at, updated_at },
-  //     { id: parseInt(id) }
-  //   ]
-
-  //   const result = await statusModel.putStatus(statusData)
-  //   if ( result ) {
-  //     const data = {
-  //       succes: true,
-  //       msg: `status with ${id} has been updated`,
-  //       data: statusData[0]
-  //     }
-  //     response.status(200).send(data)
-  //   } else {
-  //     const data = {
-  //       success: false,
-  //       msg: 'Failed to updated status'
-  //     }
-  //     response.status(400).send(data)
-  //   }
-  // },
   putStatus: async function (request, response) {
       const setData = request.body
       const id = request.params.id

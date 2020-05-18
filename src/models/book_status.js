@@ -26,17 +26,6 @@ module.exports = {
       })
     })
   },
-  
-  // putStatus: (id) => {
-  //   return new Promise((resolve, reject) => {
-  //     db.query('UPDATE FROM book_status WHERE id = ?', id, (error, result) => {
-  //       if (error) {
-  //         reject(Error(error))
-  //       }
-  //       resolve(result)
-  //     })
-  //   })
-  // },
   putStatus: (setData, id) => {
     return new Promise(function (resolve, reject) {
       db.query('UPDATE book_status SET ? WHERE id = ?', [setData, id], function (error, result) {

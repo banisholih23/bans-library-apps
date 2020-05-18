@@ -106,28 +106,6 @@ module.exports = {
     });
   },
   // updateBooks: async function (request, response) {
-  //   const setData = request.body
-  //   const id = request.params.id
-  //   //const image  = request.file
-
-  //   setData.image = `http://localhost:5000/profile_picture/${request.file}`
-  //   console.log(setData)
-  //   const result = await book.putBooks(setData, id)
-  //   if (result) {
-  //      const data = {
-  //       succes: true,
-  //       msg: 'book image has been updated'
-  //     }
-  //      response.status(200).send(data)
-  //    } else {
-  //     const data = {
-  //       success: false,
-  //        msg: `failed to update image`
-  //      }
-  //     response.status(400).send(data)
-  //   }
-  // },
-  // updateBooks: async function (request, response) {
   //   upload(request, response, async function (error) {
   //     if (error instanceof multer.MulterError) {
   //       return response
@@ -139,28 +117,21 @@ module.exports = {
   //         .json({ status: 500, message: error, data: [] });
   //     }
   //     try {
-  //       if (!request.file) {
-  //         return response.status(500).json({
-  //           status: 500,
-  //           message: "Please choosing files...",
-  //           data: [],
-  //         });
-  //       } else {
-  //         let setData = request.body;
-  //         const id = request.params.id;
-  //         setData.image = `http://localhost:5000/profile_picture/${request.file.filename}`;
-  //         console.log(setData)
-  //         const result = await bookModels.putBooks(setData, id);
-  //         return response
-  //           .status(200)
-  //           .json({ status: 200, message: "success", data: setData });
-  //       }
+  //       let setData = request.body;
+  //       const id = request.params.id
+  //       setData.image = `http://localhost:5000/profile_picture/${request.file.filename}`;
+  //       console.log(setData);
+  //       const result = await book.updateBooks(setData, id);
+  //       return response
+  //         .status(200)
+  //         .json({ status: 200, message: "success", data: result });
+    
   //     } catch (error) {
   //       return response
   //         .status(500)
   //         .json({ status: 500, message: error, data: [] });
   //     }
-  //   });
+  //   })
   // },
   deleteBook: async (request, response) => {
     const { id } = request.params
