@@ -14,7 +14,7 @@ module.exports = {
     })
   },
   getBookCount: (data = {}) => {
-    const sql = `SELECT COUNT(*) as total FROM lis_book WHERE book_title LIKE '${data.search || ''}%' 
+    const sql = `SELECT count(*) as total FROM lis_book WHERE book_title LIKE '${data.search || ''}%' 
     ORDER BY book_title ${parseInt(data.sort) ? 'DESC' : 'ASC'}`
     return new Promise((resolve, reject) => {
       db.query(sql, (error, result) => {

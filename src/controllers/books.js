@@ -18,7 +18,7 @@ const getPerPage = (_perPage) => {
   if (perPage && perPage > 0) {
     return perPage
   } else {
-    return 5
+    return 4
   }
 }
 
@@ -52,13 +52,12 @@ module.exports = {
       const { page, limit, search, sort } = request.query
 
       const condition = {
-        search,
-        sort
+        search, sort
       }
 
       const sliceStart = (getPage(page) * getPerPage(limit)) - getPerPage(limit)
       const sliceEnd = (getPage(page) * getPerPage(limit))
-      const totalData = await book.getBookCount(condition)
+      const totalData = await book.getBookCount(sliceStart, sliceEnd, condition)
       //const totalDataConds = await book.countData(pagination)
         // console.log(totalData)
       const totalPage = Math.ceil(totalData / getPerPage(limit))

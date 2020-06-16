@@ -7,5 +7,6 @@ Route
     .get('/users', auth.getAllUsers)
     .post('/register', auth.postSignUp)
     .post('/login', auth.postSignIn)    
+    .delete('/users/:id', auth.deleteUsers)
     
 module.exports = Route

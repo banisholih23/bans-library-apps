@@ -89,5 +89,23 @@ module.exports = {
       console.log(error);
       return response.status(500).json({ status: 500, data: [] });
     }
-  }
+  },
+  deleteUsers: async function (request, response) {
+    const id = request.params.id
+    const result = await authModel.deleteUsers(id)
+
+    if (result) {
+     const data = {
+       succes: true,
+       msg: `User with id ${id} deleted succesfully`
+     }
+     response.status(200).send(data)
+   } else {
+     const data = {
+       success: false,
+       msg: `failed to deleted user`
+     }
+     response.status(400).send(data)
+   }
+ }
 };

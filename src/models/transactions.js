@@ -3,7 +3,7 @@ const db = require('../config/index')
 module.exports = {
 
   getAllTransaction: () => {
-    const sql = 'select transactions.id, lis_book.book_title, lis_book.book_author, users.username as orderby, book_status.status, transactions.book_id, transactions.user_id, transactions.status_id, transactions.created_at, transactions.updated_at from transactions JOIN lis_book ON lis_book.id = transactions.book_id JOIN users on users.id = transactions.user_id JOIN book_status on book_status.id = transactions.status_id'
+    const sql = 'select transactions.id, lis_book.book_title, lis_book.book_author, lis_book.book_status, users.username as orderby, transactions.book_id, transactions.user_id, transactions.status, transactions.created_at, transactions.updated_at from transactions JOIN lis_book ON lis_book.id = transactions.book_id JOIN users on users.id = transactions.user_id'
     return new Promise((resolve, reject) => {
       db.query(sql, (error, result) => {
         if (error) {
@@ -32,7 +32,7 @@ module.exports = {
           reject(Error(error))
         }
         console.log(result)
-        resolve(result.insertId)
+        resolve(result)
       })
     })
   },
@@ -47,15 +47,26 @@ module.exports = {
       })
     })
   },
-  updateTransaction: (data) => {
-    const sql = 'UPDATE transactions SET ? WHERE ?'
-    return new Promise((resolve, reject) => {
-      db.query(sql, data, (error, result) => {
-        if (error) {
-          reject(Error(error))
-        }
-        resolve(result.affectedRows)
-      })
+  // updateTransaction: (data) => {
+  //   const sql = 'UPDATE transactions SET ? WHERE ?'
+  //   return new Promise((resolve, reject) => {
+  //     db.query(sql, data, (error, result) => {
+  //       if (error) {
+  //         reject(Error(error))
+  //       }
+  //       resolve(result.affectedRows)
+  //     })
+  //   })
+  // },
+  updateTransaction: function (setData, id) {
+    return new Promise(function (resolve, reject) {
+        db.query('UPDATE transactions SET ? WHERE id = ?', [setData, id], function (error, result) {
+            if (!error) {
+                resolve(result)
+            } else {
+                reject(new Error(error))
+            }
+        })
     })
   },
   deleteTransaction: (data) => {

@@ -39,13 +39,13 @@ module.exports = {
     if (result) {
        const data = {
         succes: true,
-        msg: `status with id ${id} deleted succesfully`
+        msg: `transactions with id ${id} updated succesfully`
       }
        response.status(200).send(data)
      } else {
       const data = {
         success: false,
-         msg: `failed to deleted status`
+         msg: `failed to update transactions`
       }
       response.status(400).send(data)
     }

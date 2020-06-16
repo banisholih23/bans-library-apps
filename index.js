@@ -25,6 +25,7 @@ const server = app.listen(5000, "localhost", () => {
 // })
 
 app.use(morgan("dev"))
+app.use(bodyParser.json())
 
 app.use(cors('*'))
 app.options(cors(corsOption))
