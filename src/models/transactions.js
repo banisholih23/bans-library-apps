@@ -3,7 +3,7 @@ const db = require('../config/index')
 module.exports = {
 
   getAllTransaction: () => {
-    const sql = 'select transactions.id, lis_book.book_title, lis_book.book_author, lis_book.book_status, users.username as orderby, transactions.book_id, transactions.user_id, transactions.status, transactions.created_at, transactions.updated_at from transactions JOIN lis_book ON lis_book.id = transactions.book_id JOIN users on users.id = transactions.user_id'
+    const sql = 'select transactions.id, lis_book.book_title, lis_book.book_author, lis_book.book_status, users.username as orderby, transactions.book_id, transactions.status, transactions.created_at, transactions.updated_at from transactions JOIN lis_book ON lis_book.id = transactions.book_id JOIN users on users.id = transactions.user_id'
     return new Promise((resolve, reject) => {
       db.query(sql, (error, result) => {
         if (error) {

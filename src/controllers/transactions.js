@@ -19,7 +19,7 @@ module.exports = {
     if ( result ) {
       const data ={
         succes: true,
-        msg: 'add status has succesfully',
+        msg: 'add transactions has succesfully',
         data: result
       }
       response.status(200).send(data)
