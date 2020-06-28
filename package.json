@@ -10,6 +10,15 @@
   "engines": {
     "node": "12.16.3"
   },
+  "mysql": {
+    "host": "localhost",
+    "database": "banslibrary-rest-api",
+    "user": "root",
+    "password": ""
+  },
+  "server": {
+    "port": 3306
+  },
   "author": "banisholih",
   "license": "ISC",
   "dependencies": {
