@@ -18,7 +18,7 @@ const getPerPage = (_perPage) => {
   if (perPage && perPage > 0) {
     return perPage
   } else {
-    return 4
+    return 100
   }
 }
 
@@ -105,8 +105,8 @@ module.exports = {
             data: [],
           });
         } else {
-          let setData = request.body;
-          setData.image = `${process.env.APP_URL}/profile_picture/${request.file.filename}`;
+          let setData = request.body; 
+          setData.image = `${process.env.APP_URL}profile_picture/${request.file.filename}`;
           console.log(setData);
           const result = await book.addNewBook(setData);
           return response
@@ -114,6 +114,7 @@ module.exports = {
             .json({ status: 200, message: "success", data: result });
         }
       } catch (error) {
+        console.log(error)
         return response
           .status(500)
           .json({ status: 500, message: error, data: [] });
@@ -142,7 +143,7 @@ module.exports = {
         } else {
           let setData = request.body;
           const id = request.params.id
-          setData.image = `${process.env.APP_URL}/profile_picture/${request.file.filename}`;
+          setData.image = `${process.env.APP_URL}profile_picture/${request.file.filename}`;
           console.log(setData);
           const result = await book.updateBooks(setData, id);
           return response
@@ -182,5 +183,5 @@ module.exports = {
       }
       response.status(400).send(data)
     }
-  },
+  }
 }
